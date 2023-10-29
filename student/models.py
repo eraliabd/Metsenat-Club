@@ -10,6 +10,9 @@ class StudyChoices(models.TextChoices):
 class University(models.Model):
     title = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.title
+
 
 # Create your models here.
 class Student(models.Model):
@@ -25,10 +28,16 @@ class Student(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def update_payed_amount(self):
+        self.payed_amount = self.sponsors.filter('amount').count()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
 
 class StudentSponsor(models.Model):
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='sponsors')
     amount = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
