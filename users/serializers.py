@@ -5,8 +5,11 @@ from rest_framework.authtoken.models import Token
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserLogOutSerializer(serializers.Serializer):
+    token = serializers.CharField()
 
+
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
