@@ -2,19 +2,19 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .models import Sponsor, SponsorApplication
-from .serializers import SponsorSerializer, NoneSponsorApplicationSerializer
+from .serializers import SponsorSerializer, SponsorApplicationSerializer
 
 
 class SponsorAppListCreateAPIView(ListCreateAPIView):
     queryset = SponsorApplication.objects.all()
-    serializer_class = NoneSponsorApplicationSerializer
+    serializer_class = SponsorApplicationSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     filterset_fields = ['amount', 'status', 'created_at']
 
 
 class SponsorAppDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = SponsorApplication.objects.all()
-    serializer_class = NoneSponsorApplicationSerializer
+    serializer_class = SponsorApplicationSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     filterset_fields = ['amount', 'status', 'created_at']
 

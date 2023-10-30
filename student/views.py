@@ -8,7 +8,7 @@ from .serializers import UniversitySerializer, StudentSerializer, StudentSponsor
     SponsorTransactionsSerializer
 
 
-class UniversityListCreateAPIView(ModelViewSet):
+class UniversityAPIView(ModelViewSet):
     queryset = University.objects.all()
     serializer_class = UniversitySerializer
 
