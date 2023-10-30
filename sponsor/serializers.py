@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Sponsor, SponsorApplication
+from .models import Sponsor
 
 
 class SponsorSerializer(serializers.ModelSerializer):
@@ -8,11 +8,12 @@ class SponsorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor
         fields = [
-            'id', 'full_name', 'phone', 'amount', 'used_amount', 'status', 'created_at'
+            'id', 'full_name', 'phone', 'amount', 'used_amount', 'status', 'person_type', 'company_name', 'created_at'
         ]
 
 
-class SponsorApplicationSerializer(serializers.ModelSerializer):
+# For none auth users
+class SponsorAppSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SponsorApplication
-        fields = ['id', 'full_name', 'phone', 'amount', 'type', 'company_name', 'created_at']
+        model = Sponsor
+        fields = ['id', 'full_name', 'phone', 'amount', 'person_type', 'company_name', 'created_at']

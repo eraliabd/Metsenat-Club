@@ -13,6 +13,10 @@ class University(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "University"
+        verbose_name_plural = "Universities"
+
 
 # Create your models here.
 class Student(models.Model):

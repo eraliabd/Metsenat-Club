@@ -1,27 +1,21 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .models import Sponsor, SponsorApplication
-from .serializers import SponsorSerializer, SponsorApplicationSerializer
+from .models import Sponsor
+from .serializers import SponsorSerializer, SponsorAppSerializer
 
 
-class SponsorAppListCreateAPIView(ListCreateAPIView):
-    queryset = SponsorApplication.objects.all()
-    serializer_class = SponsorApplicationSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    filterset_fields = ['amount', 'status', 'created_at']
-
-
-class SponsorAppDetailAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = SponsorApplication.objects.all()
-    serializer_class = SponsorApplicationSerializer
-    filter_backends = [SearchFilter, OrderingFilter]
-    filterset_fields = ['amount', 'status', 'created_at']
-
-
-class SponsorListCreateAPIView(ListCreateAPIView):
+# For none auth user
+class SponsorCreateAPIView(CreateAPIView):
     queryset = Sponsor.objects.all()
+    serializer_class = SponsorAppSerializer
+
+
+class SponsorListAPIView(ListAPIView):
+    queryset = Sponsor.objects.order_by('-created_at')
     serializer_class = SponsorSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    filterset_fields = ['amount', 'status', 'created_at']
 
 
 class SponsorDetailAPIView(RetrieveUpdateDestroyAPIView):

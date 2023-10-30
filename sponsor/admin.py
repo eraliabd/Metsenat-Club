@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import Sponsor, SponsorApplication
+from .models import Sponsor
 
 admin.site.register(Sponsor)
-admin.site.register(SponsorApplication)
