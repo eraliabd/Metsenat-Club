@@ -32,6 +32,9 @@ class Student(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.full_name
+
     def update_payed_amount(self):
         self.payed_amount = self.sponsors.filter('amount').count()
 
@@ -47,6 +50,9 @@ class StudentSponsor(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.student} - {self.sponsor}"
+
 
 class SponsorTransactions(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
@@ -56,3 +62,22 @@ class SponsorTransactions(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.student} - {self.sponsor}"
+
+    def trans_amount(self):
+        if self.sponsor.amount >= self.amount:
+            sponsor_amount = self.sponsor.amount - self.amount
+
+            self.sponsor.amount = sponsor_amount
+            self.sponsor.used_amount += self.amount
+
+            self.student.payed_amount += self.amount
+            self.is_success = True
+        else:
+            return {"error": "There are insufficient funds in your account"}
+
+    def save(self, *args, **kwargs):
+        super(SponsorTransactions, self).save(*args, **kwargs)
+

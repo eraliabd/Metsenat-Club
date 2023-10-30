@@ -35,3 +35,9 @@ class Sponsor(models.Model):
 
     def __str__(self):
         return self.full_name
+
+    def update_status(self):
+        self.status = SponsorStatusChoices.approved
+
+    def save(self, *args, **kwargs):
+        super(Sponsor, self).save(*args, **kwargs)

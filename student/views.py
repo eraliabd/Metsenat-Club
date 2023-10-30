@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -25,6 +26,24 @@ class StudentDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
 
 
-class StudentSponsorListCreateAPIView(ListCreateAPIView):
-    queryset = StudentSponsor.objects.all()
-    serializer_class = StudentSponsorSerializer
+class SponsorTransactionsListCreateAPIView(ListCreateAPIView):
+    queryset = SponsorTransactions.objects.all()
+    serializer_class = SponsorTransactionsSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = SponsorTransactionsSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print(request.data)
+        # trans = SponsorTransactions.objects.create(
+        #     student=request.data['student'],
+        #     sponsor=request.data['sponsor'],
+        #     amount=request.data['amount'],
+        #     is_success=request.data['is_success'],
+        # )
+        trans = serializer.data
+        result = SponsorTransactionsSerializer(trans)
+        return Response(result.data, status=status.HTTP_201_CREATED)
+
+
